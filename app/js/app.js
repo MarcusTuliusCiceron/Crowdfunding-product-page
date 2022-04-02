@@ -172,9 +172,25 @@ class BackingDetails extends React.Component {
 }
 
 class BackingItem extends React.Component{
+    
     render(){
+        console.log(this.props.children)
         return <div className="Backing_Item">
-            
+            <div className="top">
+                <h3>
+                    {this.props.title}
+                </h3>
+                <p>
+                    Pledge ${this.props.price} or more
+                </p>
+            </div>
+            <p>
+            {this.props.children}
+            </p>
+            <div className="bottom">
+                <p><strong></strong>left</p>
+                <button className="button">Select Reward</button>
+            </div>
         </div>
     }
 }
@@ -189,7 +205,8 @@ class BackingMenu extends React.Component{
         <p>
         <br/>Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer 
         to allow notepads, pens, and USB sticks to be stored under the stand.</p>
-        <BackingItem></BackingItem>
+        <BackingItem>You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and 
+  you’ll be added to a special Backer member list.</BackingItem>
         </div>
     }
 }
@@ -224,8 +241,7 @@ ReactDOM.render(<Page/>, document.querySelector('#app'))
   
   Bamboo Stand
   Pledge $25 or more
-  You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and 
-  you’ll be added to a special Backer member list.
+  
   101 left
   Select Reward
 
