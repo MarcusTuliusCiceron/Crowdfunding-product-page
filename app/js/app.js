@@ -1,4 +1,8 @@
-
+function numberWithCommas(x) {
+    console.log(x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    
+}
 
 class HamburgerBTN extends React.Component{
 
@@ -13,6 +17,7 @@ class HamburgerBTN extends React.Component{
 }
 
 class HamburgerMenu extends React.Component{
+
     render(){
         return <div className={this.props.class}>
             <a href="#">About</a>
@@ -27,11 +32,14 @@ class Header extends React.Component{
     
     constructor(props) {
         super(props)
-        this.toggleClass= this.toggleClass.bind(this)
+        this.toggleClass = this.toggleClass.bind(this)
+
+        
         this.state = {
             active: 0,
             classBtn: 'HamburgerBtn HideForDesktop',
-            classMenu: 'HamburgerMenu HideForDesktop'
+            classMenu: 'HamburgerMenu HideForDesktop',
+            classOverlay: 'overlay'
         }
     }
 
@@ -41,14 +49,16 @@ class Header extends React.Component{
             this.setState({ 
                 active: 1,
                 classBtn: 'HamburgerBtn HideForDesktop Open',
-                classMenu: 'HamburgerMenu HideForDesktop Open slidein'
+                classMenu: 'HamburgerMenu HideForDesktop Open slidein',
+                classOverlay: 'overlay open fadeIn'
             })
         }
         else if (this.state.active == 1){
             this.setState({ 
                 active: 2,
                 classBtn: 'HamburgerBtn HideForDesktop',
-                classMenu: 'HamburgerMenu HideForDesktop Open slideout'
+                classMenu: 'HamburgerMenu HideForDesktop Open slideout',
+                classOverlay: 'overlay fadeOut'
             })
         }
         
@@ -66,13 +76,28 @@ class Header extends React.Component{
             </div>
             <HamburgerBTN class={this.state.classBtn} onClick={this.toggleClass}></HamburgerBTN>
             <HamburgerMenu class={this.state.classMenu}></HamburgerMenu>
+            <div className={this.state.classOverlay}></div>
         </div>
     }
 }
 
 class BackingSection extends React.Component{
+
+    constructor(props){
+        super(props)
+        this.state = {active: false}
+        this.toggleClass = this.toggleClass.bind(this)
+    }
+
+    toggleClass() {
+        const currentState = this.state.active;
+        this.setState({ 
+            active: !currentState,
+        })
+    }
+
     render(){
-        return <div className="">
+        return <div className="Backing_Section">
             <div className="logo">
 
             </div>
@@ -83,30 +108,72 @@ class BackingSection extends React.Component{
             A beautiful & handcrafted monitor stand to reduce neck and eye strain.
             </p>
             <div className="action_bar">
-                <button>
+                <button className="button">
                 Back this project
                 </button>
-                <div className="bookmark">
+                <div className={this.state.active ? "bookmark active" : "bookmark"} onClick={this.toggleClass}>
                     <div className="icon_bookmark">
-                    Bookmark
+                    
                     </div>
+                    Bookmark
                 </div>
             </div>
         </div>
     }
 }
 
-class BackingMenu extends React.Component{
-    render(){
-        return <div className="">
-            
+class BackingDetails extends React.Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            backed: props.backed,
+            backers: props.backers,
+            days: props.days,
+            progress: props.backed/1000
+        }
+    }
+
+
+    render() {
+        
+        document.documentElement.style.setProperty('--progress', `${this.state.progress}%` )
+        return <div className="Backing_Details">
+            <div className="infos">
+                <div className="column">
+                    <strong>${numberWithCommas(this.state.backed)}</strong>
+                    <p>of $100,000 backed</p>
+                 
+                </div>
+                <div className="column">
+                    <strong>
+                        {numberWithCommas(this.state.backers)}
+                    </strong>
+                    <p>
+                        total backers
+                    </p>
+                </div>
+                <div className="column">
+                    <strong>
+                        {numberWithCommas(this.state.days)}
+                    </strong>
+                    <p>
+                        days left
+                    </p>
+                </div>
+            </div>
+
+            <div className="loading_bar_container">
+                <div className="loading_bar_progress">
+
+                </div>
+            </div> 
         </div>
     }
 }
 
-class BackingDetails extends React.Component{
+class BackingMenu extends React.Component{
     render(){
-        return <div className="">
+        return <div className="Backing_Menu">
             
         </div>
     }
@@ -116,7 +183,7 @@ class Backing extends React.Component{
     render(){
         return <div className = "Block Backing">
             <BackingSection></BackingSection>
-            <BackingDetails></BackingDetails>
+            <BackingDetails backed={89914} backers={5007} days={56} ></BackingDetails>
             <BackingMenu></BackingMenu>
         </div>
     }
@@ -143,9 +210,9 @@ ReactDOM.render(<Page/>, document.querySelector('#app'))
   
   
 
-  $89,914 of $100,000 backed
-  5,007 total backers
-  56 days left
+  
+  
+  
 
   About this project
 

@@ -22,6 +22,7 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
+        z-index: 4;
     }
 
     .Links{
@@ -47,6 +48,7 @@
 
     .HamburgerBtn{
         height: fit-content;
+        z-index: 3;
         span{
             display: block;
             width: 16px;
@@ -85,6 +87,8 @@
         background-color: white;
         left: $PaddingSidePage;
         right: $PaddingSidePage;
+
+        min-width: 325px;
         
         top: 96px;
         display: flex;
@@ -94,14 +98,20 @@
         overflow: hidden;
 
         visibility: hidden;
+
+        z-index: 5;
         a{
             font-size: .9375rem;
             color: black;
             font-weight: $Medium;
             text-decoration: none;
             width: 100%;
-            border-bottom: solid 1px black;
+            
             padding: 30px 15px;
+
+            &:not(:last-child){
+                border-bottom: solid 1px $DarkGray;
+            }
         }
     }
 
@@ -120,4 +130,19 @@
     background-color: #FAFAFA;
     height: 100%;
     min-height: 100vh;
+}
+
+.overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background: linear-gradient(0deg, rgba(255,255,255,0.65) 0%, rgba(0,0,0,0.56) 100%);
+    z-index: 2;
+    visibility: hidden;
+}
+
+.overlay.open{
+    visibility: visible;
 }

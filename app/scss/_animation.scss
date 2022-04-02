@@ -40,3 +40,36 @@
   .slideout{
     animation: slideout 0.3s linear 0s forwards;
   }
+
+@keyframes fadeIn{
+  0%{
+    visibility: visible;
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+    visibility: visible;
+  }
+}
+  .fadeIn{
+    animation: fadeIn 0.3s linear 0s forwards;
+  }
+
+  @keyframes fadeOut{
+    0%{
+      visibility: visible;
+      opacity: 1;
+    }
+    99%{
+      opacity: 0;
+      visibility: visible;
+    }
+    100%{
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+    .fadeOut{
+      animation: fadeOut 0.3s linear 0s forwards;
+    }
+   
