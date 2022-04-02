@@ -1,15 +1,40 @@
 @import "variables";
 @import "mixin";
+@import "container";
+@import "animation";
 
 html{
     box-sizing: border-box;
     font-size: 100%;
+
 }
 *, *::before, *::after{
     box-sizing: inherit;
     margin: 0;
     padding: 0;
+    font-family: 'Commissioner', sans-serif;
 }
 body{
-    height: 100vh;
+    min-height: 100vh;
+}
+
+//Helper class
+
+*.HideForTablet{
+    @include breakpoint-down(medium){
+        display: none;
+    }
+}
+
+*.HideForDesktop{
+    @include breakpoint-up(large){
+        display: none;
+    }
+}
+
+.Block{
+    width: 50.9vw;
+    min-height: 50px;
+    background-color: white;
+    margin: 0 auto;
 }
