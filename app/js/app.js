@@ -73,7 +73,25 @@ class Header extends React.Component{
 class BackingSection extends React.Component{
     render(){
         return <div className="">
+            <div className="logo">
 
+            </div>
+            <h1>
+            Mastercraft Bamboo Monitor Riser
+            </h1>
+            <p>
+            A beautiful & handcrafted monitor stand to reduce neck and eye strain.
+            </p>
+            <div className="action_bar">
+                <button>
+                Back this project
+                </button>
+                <div className="bookmark">
+                    <div className="icon_bookmark">
+                    Bookmark
+                    </div>
+                </div>
+            </div>
         </div>
     }
 }
@@ -119,11 +137,11 @@ ReactDOM.render(<Page/>, document.querySelector('#app'))
 
 
 
-  Mastercraft Bamboo Monitor Riser
-  A beautiful & handcrafted monitor stand to reduce neck and eye strain.
+  
+  
 
-  Back this project
-  Bookmark
+  
+  
 
   $89,914 of $100,000 backed
   5,007 total backers
