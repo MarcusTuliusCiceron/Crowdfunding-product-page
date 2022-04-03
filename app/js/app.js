@@ -1,13 +1,16 @@
 function numberWithCommas(x) {
-    console.log(x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     
+}
+
+function isANumber(x){
+    return /^\d+$/.test(x);
 }
 
 class HamburgerBTN extends React.Component{
 
     render(){
-        
         return <div className={this.props.class} onClick={this.props.onClick}>
         <span></span>
         <span></span>
@@ -65,7 +68,6 @@ class Header extends React.Component{
     }
 
     render(){
-        console.log(this.state.active ? 'HamburgerBtn HideForDesktop Open': 'HamburgerBtn HideForDesktop')
         return <div className="Header">
             <div className="Logo">
             </div>
@@ -108,7 +110,7 @@ class BackingSection extends React.Component{
             A beautiful & handcrafted monitor stand to reduce neck and eye strain.
             </p>
             <div className="action_bar">
-                <button className="button">
+                <button className="button" onClick={this.props.handleClickBack.bind(this)}>
                 Back this project
                 </button>
                 <div className={this.state.active ? "bookmark active" : "bookmark"} onClick={this.toggleClass}>
@@ -188,7 +190,7 @@ class BackingItem extends React.Component{
             </p>
             <div className="bottom">
                 <p><strong>{this.props.left}</strong> left</p>
-                <button className={this.props.available ? "button button_active" : "button button_inactive"}>{this.props.available ? "Select Reward" : "Out of stock"}</button>
+                <button className={this.props.available ? "button button_active" : "button button_inactive"} onClick={this.props.available ? this.props.handleClickItem.bind(this): null }>{this.props.available ? "Select Reward" : "Out of stock"}</button>
             </div>
         </div>
     }
@@ -196,11 +198,11 @@ class BackingItem extends React.Component{
 
 class BackingSelection extends React.Component {
     render() {
-        return <div className="Overlay_Selection">
+        return <div className={this.props.active ? "Overlay_Selection Active" : "Overlay_Selection"}>
             <div className="Backing_Selection">
                 <div className="top">
                     <h2>Back this project</h2>
-                    <div className="cross">
+                    <div className="cross" onClick={this.props.handleClickCross.bind(this)}>
                     </div>
                 </div>
                 <p>Want to support us in bringing Mastercraft Bamboo Monitor Riser out in the world?</p>
@@ -209,7 +211,12 @@ class BackingSelection extends React.Component {
                     price={0} 
                     left={this.props.products.left[1]}
                     available = {true} 
-                    selected={false}>
+                    selected={this.props.products.selectedPledge[3]}
+                    handleClickRadio={this.props.handleClickRadio.bind(this)}
+                    handleClickContinue={this.props.handleClickContinue.bind(this)}
+                    handleInputChange = {this.props.handleInputChange.bind(this)}
+                    enteredAmount = {this.props.enteredAmount}
+                    number={3}>
                         Choose to support us without a reward if you simply believe in our project. As a backer,
                         you will be signed up to receive product updates via email.
                     </BackingSelectionItem>
@@ -218,7 +225,12 @@ class BackingSelection extends React.Component {
                     price={this.props.products.prices[0]} 
                     left={this.props.products.left[0]}
                     available = {this.props.products.available[0]}  
-                    selected={true}>
+                    selected={this.props.products.selectedPledge[0]}
+                    handleClickRadio={this.props.handleClickRadio.bind(this)}
+                    handleClickContinue={this.props.handleClickContinue.bind(this)}
+                    handleInputChange = {this.props.handleInputChange.bind(this)}
+                    enteredAmount = {this.props.enteredAmount}
+                    number={0}>
                         You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and
                         you’ll be added to a special Backer member list.
                     </BackingSelectionItem>
@@ -227,7 +239,12 @@ class BackingSelection extends React.Component {
                     price={this.props.products.prices[1]} 
                     left={this.props.products.left[1]}
                     available = {this.props.products.available[1]}  
-                    selected={false}>
+                    selected={this.props.products.selectedPledge[1]}
+                    handleClickRadio={this.props.handleClickRadio.bind(this)}
+                    handleClickContinue={this.props.handleClickContinue.bind(this)}
+                    handleInputChange = {this.props.handleInputChange.bind(this)}
+                    enteredAmount = {this.props.enteredAmount}
+                    number={1}>
                         You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer
                         member list. Shipping is included.
                     </BackingSelectionItem>
@@ -236,7 +253,12 @@ class BackingSelection extends React.Component {
                     price={this.props.products.prices[2]} 
                     left={this.props.products.left[2]}
                     available = {this.props.products.available[2]}  
-                    selected={false}>
+                    selected={this.props.products.selectedPledge[2]}
+                    handleClickRadio={this.props.handleClickRadio.bind(this)}
+                    handleClickContinue={this.props.handleClickContinue.bind(this)}
+                    handleInputChange = {this.props.handleInputChange.bind(this)}
+                    enteredAmount = {this.props.enteredAmount}
+                    number={2}>
                         You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added
                         to our Backer member list. Shipping is included.
                     </BackingSelectionItem>
@@ -261,7 +283,7 @@ class BackingSelectionItem extends React.Component {
         return <div className={classList}>
             <div className="top">
                 <div className="top_left">
-                    <div className="CustomRadioGroup">
+                    <div className="CustomRadioGroup" onClick={this.props.available ? this.props.handleClickRadio.bind(this, this.props.number) : null}>
                         <div className="CustomRadioBtn">
                             <div className={this.props.selected ? "CustomRadioCheck Checked" : "CustomRadioCheck"}>
 
@@ -285,8 +307,8 @@ class BackingSelectionItem extends React.Component {
                 <p>Enter your pledge</p>
                 <div className="right">
                     <p className="dollar">$</p>
-                    <input type="text" />
-                    <button className="button">Continue</button>
+                    <input type="text" onChange={this.props.available ? this.props.handleInputChange.bind(this) : null} />
+                    <button className="button" onClick={this.props.available ? this.props.handleClickContinue.bind(this, this.props.number) : null}>Continue</button>
                 </div>
 
             </div>
@@ -308,19 +330,22 @@ class BackingMenu extends React.Component{
             <BackingItem title={this.props.products.titles[0]}
                 price={this.props.products.prices[0]}
                 left={this.props.products.left[0]}
-                available={this.props.products.available[0]}>
+                available={this.props.products.available[0]}
+                handleClickItem={this.props.handleClickItem}>
                 You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and
                 you’ll be added to a special Backer member list.</BackingItem>
             <BackingItem title={this.props.products.titles[1]}
                 price={this.props.products.prices[1]}
                 left={this.props.products.left[1]}
-                available={this.props.products.available[1]}>
+                available={this.props.products.available[1]}
+                handleClickItem={this.props.handleClickItem}>
                 You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer
                 member list. Shipping is included.</BackingItem>
             <BackingItem title={this.props.products.titles[2]}
                 price={this.props.products.prices[2]}
                 left={this.props.products.left[2]}
-                available={this.props.products.available[2]}>
+                available={this.props.products.available[2]}
+                handleClickItem={this.props.handleClickItem}>
                 You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added
                 to our Backer member list. Shipping is included.</BackingItem>
         </div>
@@ -336,20 +361,112 @@ class Backing extends React.Component{
             backers: props.backers,
             days: props.days,
             products: {
-                titles: ["Bamboo Stand", "Black Edition Stand", "Mahogany Special Edition"],
-                prices: ["25", "75", "200"],
-                left: ["101", "75", "0"],
-                available: [true, true, false]
-            }
+                titles: ["Bamboo Stand", "Black Edition Stand", "Mahogany Special Edition", "Pledge with no reward"],
+                prices: ["25", "75", "200", "0"],
+                left: ["101", "75", "0", ""],
+                available: [true, true, false, true],
+                selectedPledge: [false, false, false, false],
+                enteredAmount: ""
+            },
+            selectionModeActive: false
                 
         }
+        this.handleClickBack = this.handleClickBack.bind(this)
+        this.handleClickCross = this.handleClickCross.bind(this)
+        this.handleClickRadio = this.handleClickRadio.bind(this)
+        this.handleClickContinue = this.handleClickContinue.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
     }
+
+    handleClickBack(){
+
+        this.setState({
+            selectionModeActive: true
+        })
+        window.scrollTo(0, 0)
+    }
+
+    handleClickCross(){
+
+        this.setState({
+            selectionModeActive: false
+        })
+    }
+
+    handleClickRadio(i){
+
+        if (i==0){
+
+            this.setState(
+                this.state.products.selectedPledge = [true, false, false, false]
+            )
+        }
+        if (i==1){
+
+            this.setState(
+                this.state.products.selectedPledge = [false, true, false, false]
+            )
+        }
+        if (i==2){
+
+            this.setState(
+                this.state.products.selectedPledge = [false, false, true, false]
+            )
+        }
+        if (i==3){
+
+            this.setState(
+                this.state.products.selectedPledge = [false, true, false, true]
+            )
+        }
+        
+    }
+
+    handleClickContinue(i){
+        console.log('continue')
+        console.log(this.state.enteredAmount)
+        if (isANumber(this.state.enteredAmount)){
+            // pledge item
+        }
+        else{
+            //error handleing
+        }
+    }
+
+    handleInputChange(e){
+        this.setState(
+            {enteredAmount : e.target.value}
+        )
+    
+
+    }
+
     render(){
         return <div className = "Block Backing">
-            <BackingSection></BackingSection>
+            <BackingSection handleClickBack={this.handleClickBack} ></BackingSection>
             <BackingDetails backed={this.state.backed} backers={this.state.backers} goal={this.state.goal} days={this.state.days} ></BackingDetails>
-            <BackingMenu backed={this.state.backed} backers={this.state.backers} goal={this.state.goal} days={this.state.days} products={this.state.products}></BackingMenu>
-            <BackingSelection backed={this.state.backed} backers={this.state.backers} goal={this.state.goal} days={this.state.days} products={this.state.products}></BackingSelection>
+            <BackingMenu 
+                backed={this.state.backed} 
+                backers={this.state.backers} 
+                goal={this.state.goal} 
+                days={this.state.days} 
+                products={this.state.products}
+                handleClickItem={this.handleClickBack}>
+
+            </BackingMenu>
+            <BackingSelection 
+                backed={this.state.backed} 
+                backers={this.state.backers} 
+                goal={this.state.goal} 
+                days={this.state.days} 
+                products={this.state.products} 
+                active={this.state.selectionModeActive}
+                handleClickCross={this.handleClickCross}
+                handleClickRadio={this.handleClickRadio}
+                handleClickContinue={this.handleClickContinue}
+                handleInputChange={this.handleInputChange}
+                enteredAmount={this.state.enteredAmount}>
+            </BackingSelection>
         </div>
     }
 }
@@ -367,58 +484,6 @@ ReactDOM.render(<Page/>, document.querySelector('#app'))
 
 /*
 
-
-
-  
-
-
-  
-
-  <!-- Selection modal start -->
-
-  
-  
-
-  
-  
-
-  Bamboo Stand
-  Pledge $25 or more
-  
-  101 left
-
-  <!-- Selected pledge start -->
-  Enter your pledge
-  $25
-  Continue
-  <!-- Selected pledge end -->
-
-  Black Edition Stand
-  Pledge $75 or more
-  
-  64 left
-
-  <!-- Selected pledge start -->
-  Enter your pledge
-  $75
-  Continue
-  <!-- Selected pledge end -->
-
-  Mahogany Special Edition
-  Pledge $200 or more
-  You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added
-  to our Backer member list. Shipping is included.
-  0 left
-
-  <!-- Selected pledge  start -->
-  Enter your pledge
-  $200
-  Continue
-  <!-- Selected pledge end -->
-
-  <!-- Selection modal end -->
-
-  <!-- Success modal start -->
 
   Thanks for your support!
   Your pledge brings us one step closer to sharing Mastercraft Bamboo Monitor Riser worldwide. You will get

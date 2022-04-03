@@ -843,6 +843,7 @@
 
 .Overlay_Selection {
   z-index: 7;
+  visibility: hidden;
   padding: 0 25vw;
   position: absolute;
   background: -webkit-gradient(linear, left bottom, left top, from(rgba(78, 78, 78, 0.37)), to(rgba(0, 0, 0, 0.74)));
@@ -858,6 +859,10 @@
     top: -206px;
     padding: 0 15vw;
   }
+}
+
+.Overlay_Selection.Active {
+  visibility: visible;
 }
 
 .CustomRadioGroup {

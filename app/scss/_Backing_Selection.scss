@@ -161,7 +161,7 @@
 
 .Overlay_Selection{
     z-index: 7;
-    //display: none;
+    visibility: hidden;
     padding: 0 25vw;
     position: absolute;
     background: linear-gradient(0deg, rgba(78,78,78,0.37) 0%, rgba(0,0,0,0.74) 100%);
@@ -174,4 +174,8 @@
         top: -206px;
         padding: 0 15vw;
     }
+}
+
+.Overlay_Selection.Active{
+    visibility: visible;
 }
