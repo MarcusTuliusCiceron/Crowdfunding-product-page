@@ -174,8 +174,7 @@ class BackingDetails extends React.Component {
 class BackingItem extends React.Component{
     
     render(){
-        console.log(this.props.children)
-        return <div className="Backing_Item">
+        return <div className={this.props.available ? "Backing_Item" : "Backing_Item Unavailable"}>
             <div className="top">
                 <h3>
                     {this.props.title}
@@ -188,35 +187,169 @@ class BackingItem extends React.Component{
             {this.props.children}
             </p>
             <div className="bottom">
-                <p><strong></strong>left</p>
-                <button className="button">Select Reward</button>
+                <p><strong>{this.props.left}</strong> left</p>
+                <button className={this.props.available ? "button button_active" : "button button_inactive"}>{this.props.available ? "Select Reward" : "Out of stock"}</button>
+            </div>
+        </div>
+    }
+}
+
+class BackingSelection extends React.Component {
+    render() {
+        return <div className="Overlay_Selection">
+            <div className="Backing_Selection">
+                <div className="top">
+                    <h2>Back this project</h2>
+                    <div className="cross">
+                    </div>
+                </div>
+                <p>Want to support us in bringing Mastercraft Bamboo Monitor Riser out in the world?</p>
+                <div className="Backing_Selection_Items">
+                    <BackingSelectionItem title={"Pledge with no reward"} 
+                    price={0} 
+                    left={this.props.products.left[1]}
+                    available = {true} 
+                    selected={false}>
+                        Choose to support us without a reward if you simply believe in our project. As a backer,
+                        you will be signed up to receive product updates via email.
+                    </BackingSelectionItem>
+
+                    <BackingSelectionItem title={this.props.products.titles[0]} 
+                    price={this.props.products.prices[0]} 
+                    left={this.props.products.left[0]}
+                    available = {this.props.products.available[0]}  
+                    selected={true}>
+                        You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and
+                        you’ll be added to a special Backer member list.
+                    </BackingSelectionItem>
+
+                    <BackingSelectionItem title={this.props.products.titles[1]} 
+                    price={this.props.products.prices[1]} 
+                    left={this.props.products.left[1]}
+                    available = {this.props.products.available[1]}  
+                    selected={false}>
+                        You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer
+                        member list. Shipping is included.
+                    </BackingSelectionItem>
+
+                    <BackingSelectionItem title={this.props.products.titles[2]} 
+                    price={this.props.products.prices[2]} 
+                    left={this.props.products.left[2]}
+                    available = {this.props.products.available[2]}  
+                    selected={false}>
+                        You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added
+                        to our Backer member list. Shipping is included.
+                    </BackingSelectionItem>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+class BackingSelectionItem extends React.Component {
+    render() {
+        let classList = ""
+        if (this.props.available){
+            classList = "Backing_Selection_Item"
+            if (this.props.selected){
+                classList = "Backing_Selection_Item Selected"
+            }
+        }
+        else{
+            classList = "Backing_Selection_Item Unavailable"
+        }
+        return <div className={classList}>
+            <div className="top">
+                <div className="top_left">
+                    <div className="CustomRadioGroup">
+                        <div className="CustomRadioBtn">
+                            <div className={this.props.selected ? "CustomRadioCheck Checked" : "CustomRadioCheck"}>
+
+                            </div>
+                        </div>
+                        <h3>{this.props.title}</h3>
+                    </div>
+                    <p>{this.props.price > 0 ? `Pledge $${this.props.price} or more` : ""} </p>
+                </div>
+                <div className="top_right">
+                    <p className="HideForTablet"><strong>{this.props.price > 0 ? `${this.props.left}` : ""}</strong> {this.props.price > 0 ? "left" : ""}</p>
+                </div>
+
+            </div>
+            <p>
+                {this.props.children}
+            </p>
+
+            <p className="HideForDesktop left_mobile"><strong>{this.props.price > 0 ? `${this.props.left}` : ""}</strong> {this.props.price > 0 ? "left" : ""}</p>
+            <div className="pledge_section">
+                <p>Enter your pledge</p>
+                <div className="right">
+                    <p className="dollar">$</p>
+                    <input type="text" />
+                    <button className="button">Continue</button>
+                </div>
+
             </div>
         </div>
     }
 }
 
 class BackingMenu extends React.Component{
-    render(){
+
+    render() {
         return <div className="Backing_Menu">
             <h2>About this project</h2>
-            <p>The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen 
-  to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve 
-  your posture and make you more comfortable while at work, helping you stay focused on the task at hand.</p>
-        <p>
-        <br/>Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer 
-        to allow notepads, pens, and USB sticks to be stored under the stand.</p>
-        <BackingItem>You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and 
-  you’ll be added to a special Backer member list.</BackingItem>
+            <p>The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen
+                to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve
+                your posture and make you more comfortable while at work, helping you stay focused on the task at hand.</p>
+            <p>
+                <br />Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer
+                to allow notepads, pens, and USB sticks to be stored under the stand.</p>
+            <BackingItem title={this.props.products.titles[0]}
+                price={this.props.products.prices[0]}
+                left={this.props.products.left[0]}
+                available={this.props.products.available[0]}>
+                You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and
+                you’ll be added to a special Backer member list.</BackingItem>
+            <BackingItem title={this.props.products.titles[1]}
+                price={this.props.products.prices[1]}
+                left={this.props.products.left[1]}
+                available={this.props.products.available[1]}>
+                You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer
+                member list. Shipping is included.</BackingItem>
+            <BackingItem title={this.props.products.titles[2]}
+                price={this.props.products.prices[2]}
+                left={this.props.products.left[2]}
+                available={this.props.products.available[2]}>
+                You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added
+                to our Backer member list. Shipping is included.</BackingItem>
         </div>
     }
 }
 
 class Backing extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            backed: props.backed,
+            goal: props.goal,
+            backers: props.backers,
+            days: props.days,
+            products: {
+                titles: ["Bamboo Stand", "Black Edition Stand", "Mahogany Special Edition"],
+                prices: ["25", "75", "200"],
+                left: ["101", "75", "0"],
+                available: [true, true, false]
+            }
+                
+        }
+    }
     render(){
         return <div className = "Block Backing">
             <BackingSection></BackingSection>
-            <BackingDetails backed={89914} backers={5007} days={56} ></BackingDetails>
-            <BackingMenu></BackingMenu>
+            <BackingDetails backed={this.state.backed} backers={this.state.backers} goal={this.state.goal} days={this.state.days} ></BackingDetails>
+            <BackingMenu backed={this.state.backed} backers={this.state.backers} goal={this.state.goal} days={this.state.days} products={this.state.products}></BackingMenu>
+            <BackingSelection backed={this.state.backed} backers={this.state.backers} goal={this.state.goal} days={this.state.days} products={this.state.products}></BackingSelection>
         </div>
     }
 }
@@ -225,7 +358,7 @@ class Page extends React.Component{
     render(){
         return <div>
             <Header></Header>
-            <Backing></Backing>
+            <Backing backed={89000} goal={100000} backers={5007} days={56}></Backing>
         </div>
     }
 }
@@ -235,43 +368,23 @@ ReactDOM.render(<Page/>, document.querySelector('#app'))
 /*
 
 
-  
 
   
-  
-  Bamboo Stand
-  Pledge $25 or more
-  
-  101 left
-  Select Reward
 
-  Black Edition Stand
-  Pledge $75 or more
-  You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer 
-  member list. Shipping is included.
-  64 left
-  Select Reward
 
-  Mahogany Special Edition
-  Pledge $200 or more
-  You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added 
-  to our Backer member list. Shipping is included.
-  0 left
-  Out of Stock
+  
 
   <!-- Selection modal start -->
 
-  Back this project
-  Want to support us in bringing Mastercraft Bamboo Monitor Riser out in the world?
+  
+  
 
-  Pledge with no reward
-  Choose to support us without a reward if you simply believe in our project. As a backer, 
-  you will be signed up to receive product updates via email.
+  
+  
 
   Bamboo Stand
   Pledge $25 or more
-  You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and
-  you’ll be added to a special Backer member list.
+  
   101 left
 
   <!-- Selected pledge start -->
@@ -282,8 +395,7 @@ ReactDOM.render(<Page/>, document.querySelector('#app'))
 
   Black Edition Stand
   Pledge $75 or more
-  You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer
-  member list. Shipping is included.
+  
   64 left
 
   <!-- Selected pledge start -->

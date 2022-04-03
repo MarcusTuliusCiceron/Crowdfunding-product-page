@@ -5,6 +5,8 @@
 @import "backingSection";
 @import "backingDetails";
 @import "backingMenu";
+@import "Backing_Selection";
+@import "customRadio";
 
 html{
     box-sizing: border-box;
@@ -20,6 +22,7 @@ html{
 body{
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
 }
 
 //Helper class
@@ -56,8 +59,16 @@ body{
     background-color: $ModerateCyan;
     border-radius: 27px;
     border: none;
+    line-height: 1;
     &:hover{
         background-color: $DarkCyan;
         cursor: pointer;
+    }
+    &_inactive{
+        background-color: $DarkGray;
+        &:hover{
+            background-color: $DarkGray;
+            cursor: default;
+        }
     }
 }
